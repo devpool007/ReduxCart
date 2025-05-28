@@ -15,10 +15,15 @@ export function fetchCartData() {
       const data = await response.json();
       return data;
     };
-
+    
     try {
       const cartData = await fetchData();
-      dispatch(cartActions.replaceCart(cartData));
+      dispatch(
+        cartActions.replaceCart({
+          items: cartData.items || [],
+          totalQuantity: cartData.totalQuantity,
+        })
+      );
     } catch (error) {
       dispatch(
         uiActions.showNotification({
@@ -46,7 +51,10 @@ export function sendCartData(cart) {
         "https://redux-4bba3-default-rtdb.europe-west1.firebasedatabase.app/cart.json",
         {
           method: "PUT",
-          body: JSON.stringify(cart),
+          body: JSON.stringify({
+            items: cart.items,
+            totalQuantity: cart.totalQuantity,
+          }),
         }
       );
 

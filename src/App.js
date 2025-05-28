@@ -16,17 +16,17 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCartData());
-
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
-    dispatch(sendCartData(cart)); // Redux toolkit automatically handles the action creator being returned here :)
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    } // Redux toolkit automatically handles the action creator being returned here :)
     //using this approach our components are leaner which is more chill
-
   }, [cart, dispatch]);
 
   return (
